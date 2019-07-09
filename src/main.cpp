@@ -9,10 +9,13 @@
 // comment this line if you want to use DHT11
 #define TEST
 
-#define DHTTYPE DHT11
-#define DHTPIN D2
 
-DHT dht(DHTPIN, DHTTYPE);
+#ifndef TEST
+    #define DHTTYPE DHT11
+    #define DHTPIN D2
+
+    DHT dht(DHTPIN, DHTTYPE);
+#endif
 
 void connectToWiFi() {
     delay(10);
@@ -44,7 +47,9 @@ void setup() {
     Serial.begin(115200);
     connectToWiFi();
     Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
-    dht.begin();
+    #ifndef TEST
+      dht.begin();
+    #endif
 }
 
 void loop() {
